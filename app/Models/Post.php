@@ -35,6 +35,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereUrlClean($value)
  * @property-read Collection<int, \App\Models\PostImage> $post_images
+ * @property-read Collection<int, \App\Models\PostImage> $post_images
  * @mixin \Eloquent
  */
 class Post extends Model

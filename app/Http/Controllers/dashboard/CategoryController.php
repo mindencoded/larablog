@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\dashboard;
 
+use App\CustomUrl;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategoryPost;
+use App\Http\Requests\UpdateCategoryPut;
 use App\Models\Category;;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
@@ -45,7 +47,10 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryPost $request): RedirectResponse
     {
-        Category::create($request->validated());
+        $inputs = $request->validated();
+
+        Category::create($inputs);
+
         //return back()->with('success', 'Category created successfully.');
         return redirect()->route('category.index')->with('success', 'Category created successfully.');
     }
@@ -75,11 +80,11 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param StoreCategoryPost $request
+     * @param UpdateCategoryPut $request
      * @param Category $category
      * @return  RedirectResponse
      */
-    public function update(StoreCategoryPost $request, Category $category): RedirectResponse
+    public function update(UpdateCategoryPut $request, Category $category): RedirectResponse
     {
         $category->update($request->validated());
         //return back()->with('success', 'Category updated successfully.');

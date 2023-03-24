@@ -21,9 +21,12 @@
         "sass-loader": "^11.0.1",
         "vue": "^2.6.12",
         "vue-loader": "^15.10.1",
+        "vue-router": "^2.7.0",
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "@ckeditor/ckeditor5-build-classic": "^36.0.1"
+        "@ckeditor/ckeditor5-build-classic": "^36.0.1",
+        "jquery": "^3.6.4",
+        "vue-plain-pagination": "^0.3.0"
     }
 }

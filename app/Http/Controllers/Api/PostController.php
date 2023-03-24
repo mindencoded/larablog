@@ -20,15 +20,15 @@ class PostController extends ApiResponseController
         join('categories', 'categories.id', '=', 'posts.category_id')->
         leftJoin('post_images', 'post_images.post_id', '=', 'posts.id')->
         select([
-            'posts.id as post_id',
+            'posts.id',
             'posts.content',
             'posts.posted',
             'categories.id as category_id',
-            'posts.title as post_title',
+            'posts.title as title',
             'categories.title as category_title',
             'post_images.image'
         ])->
-        orderBy('posts.created_at', 'desc')->paginate(10);
+        orderBy('posts.created_at', 'desc')->paginate(4);
         return $this->apiResponse($posts);
     }
 
@@ -122,6 +122,14 @@ class PostController extends ApiResponseController
      */
     public function category(Category $category): JsonResponse
     {
-        return $this->apiResponse($category->posts()->paginate(10));
+        $posts = Post::
+        leftJoin('post_images', 'post_images.post_id', '=', 'posts.id')->
+        join('categories', 'categories.id', '=', 'posts.category_id')->
+        select('posts.*', 'categories.title as category', 'post_images.image')->
+        orderBy('posts.created_at', 'desc')->
+        where('categories.id', $category->id)
+            ->paginate(4);
+
+        return $this->apiResponse(["posts" => $posts, "category" => $category]);
     }
 }

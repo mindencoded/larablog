@@ -26,7 +26,7 @@ Route::resource('category', PostController::class)->only([
 
 Route::get('category/all', [CategoryController::class, 'all'])->name('category.all');
 
-Route::resource('post', CategoryController::class)->only([
+Route::resource('post', PostController::class)->only([
     'index', 'show'
 ]);
 

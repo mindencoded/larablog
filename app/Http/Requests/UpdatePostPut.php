@@ -2,8 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Foundation\Http\FormRequest;
 
-class StorePostPost extends CustomFormRequest
+class UpdatePostPut extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,16 +25,11 @@ class StorePostPost extends CustomFormRequest
     {
         return[
             "title" => "required|min:5|max:500",
-            "url_clean" => "nullable|max:500|unique:posts",
+            "url_clean" => "nullable|max:500|unique:posts,url_clean," . $this->route('post')->id,
             "content" => "required|min:5",
             'category_id' => 'required',
             'posted' => 'required|in:yes,not',
             'image' => 'nullable|mimes:jpeg,bmp,png|max:10240', //10Mb
         ];
-    }
-
-    public function prepareForValidation()
-    {
-        $this->url_clean();
     }
 }

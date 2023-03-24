@@ -4,12 +4,15 @@ namespace App\Http\Controllers\dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostPost;
+use App\Http\Requests\UpdatePostPut;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\PostImage;
+use App\CustomUrl;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -53,6 +56,7 @@ class PostController extends Controller
      */
     public function store(StorePostPost $request): RedirectResponse
     {
+
         $inputs = $request->validated();
 
         $post = Post::create($inputs);
@@ -95,11 +99,11 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param StorePostPost $request
+     * @param UpdatePostPut $request
      * @param Post $post
      * @return  RedirectResponse
      */
-    public function update(StorePostPost $request, Post $post): RedirectResponse
+    public function update(UpdatePostPut $request, Post $post): RedirectResponse
     {
         $post->update($request->validated());
         return back()->with('success', 'Post updated successfully.');

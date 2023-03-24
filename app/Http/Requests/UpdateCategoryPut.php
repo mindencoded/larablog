@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
-class StoreCategoryPost extends CustomFormRequest
+use Illuminate\Foundation\Http\FormRequest;
+
+class UpdateCategoryPut extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,12 +25,7 @@ class StoreCategoryPost extends CustomFormRequest
     {
         return[
             'title' => 'required|min:5|max:500',
-            'url_clean' => 'nullable|max:500|unique:categories'
+            'url_clean' => 'nullable|max:500|unique:categories,url_clean,' . $this->route('category')->id,
         ];
-    }
-
-    public function prepareForValidation()
-    {
-        $this->url_clean();
     }
 }

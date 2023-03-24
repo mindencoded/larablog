@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CategorySeeder::class);
         $this->call(PostSeeder::class);
         $this->call(PostImageSeeder::class);
+        $this->call(ContactSeeder::class);
 
         DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
 

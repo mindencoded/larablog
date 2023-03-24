@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\dashboard\CategoryController;
+use App\Http\Controllers\dashboard\ContactController;
 use App\Http\Controllers\dashboard\PostController;
 use App\Http\Controllers\dashboard\UserController;
 use Illuminate\Support\Facades\Route;
@@ -22,7 +23,13 @@ Route::get('/', [App\Http\Controllers\Web\WebController::class, 'index'])->name(
 Route::resource('/dashboard/post', PostController::class);
 Route::resource('/dashboard/category', CategoryController::class);
 Route::resource('/dashboard/user', UserController::class);
+Route::resource('/dashboard/contact', ContactController::class)->only([
+    'index', 'show', 'destroy'
+]);
+
 Route::get('/dashboard/home', [App\Http\Controllers\dashboard\HomeController::class, 'index'])->name('dashboard.home');
-
-
+Route::get('/detail/{id}', [App\Http\Controllers\Web\WebController::class, 'detail']);
+Route::get('/post-category/{id}', [App\Http\Controllers\Web\WebController::class, 'post_category']);
+Route::get('/contact', [App\Http\Controllers\Web\WebController::class, 'contact'])->name('contact');
+Route::get('/categories', [App\Http\Controllers\Web\WebController::class, 'categories'])->name('categories');
 Auth::routes();

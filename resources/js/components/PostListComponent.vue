@@ -1,28 +1,36 @@
 <template>
-    <div>
-        <div class="card mb-2" v-for="post in posts" :key="post.title">
-            <img class="card-img-top" :src="/images/" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">{{ post.title }}</h5>
-                <p class="card-text">{{ post.content }}</p>
-                <a href="#" class="btn btn-primary">Ver más</a>
-            </div>
-        </div>
-    </div>
+   <post-list-default-component :key="currentPage" @getCurrentPage="getCurrentPage" :posts="posts" :totalPages="totalPages" :pCurrentPage="currentPage"></post-list-default-component>
 </template>
 
 <script>
 export default {
     name: "PostListComponent",
-    data: function() {
+    created() {
+        this.getPosts();
+    },
+    methods: {
+        postClick: function (p) {
+            this.postSelected = p;
+        },
+        async getPosts() {
+            return await fetch('/api/post?page=' + this.currentPage)
+                .then((response) => response.json())
+                .then((json) => {
+                    this.posts = json.data.data;
+                    this.totalPages = json.data.last_page;
+                });
+        },
+        getCurrentPage: function (currentPage) {
+            this.currentPage = currentPage;
+            this.getPosts();
+        }
+    },
+    data: function () {
         return {
-            posts: [
-                { title: 'Post 1', image: '92e29530133e.jpg', content: 'Next, we will create a fresh Vue application instance and attach it to the page. Then, you may begin adding components to this application or customize the JavaScript scaffolding to fit your unique needs.'},
-                { title: 'Post 2', image: '92e29530133e.jpg', content: 'Next, we will create a fresh Vue application instance and attach it to the page. Then, you may begin adding components to this application or customize the JavaScript scaffolding to fit your unique needs.'},
-                { title: 'Post 3', image: '92e29530133e.jpg', content: 'Next, we will create a fresh Vue application instance and attach it to the page. Then, you may begin adding components to this application or customize the JavaScript scaffolding to fit your unique needs.'},
-                { title: 'Post 4', image: '92e29530133e.jpg', content: 'Next, we will create a fresh Vue application instance and attach it to the page. Then, you may begin adding components to this application or customize the JavaScript scaffolding to fit your unique needs.'},
-                { title: 'Post 5', image: '92e29530133e.jpg', content: 'Next, we will create a fresh Vue application instance and attach it to the page. Then, you may begin adding components to this application or customize the JavaScript scaffolding to fit your unique needs.'}
-            ]
+            postSelected: null,
+            posts: [],
+            totalPages: 0,
+            currentPage: 1
         }
     },
 }
